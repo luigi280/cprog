@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 int main(int argc, char *argv[]){
 
 
@@ -33,7 +34,6 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "not found: %s\n", filename);
         exit(1);
     }
-
     int *hmove = move;
     while (( ch = fgetc(file)) != EOF ) {
 
@@ -47,7 +47,11 @@ int main(int argc, char *argv[]){
                         break;
                     else if(ch == 93)
                         count--;
-                }
+                    if( ch == EOF){    //not found ]
+                        printf("no ] \n");
+                        exit(1);
+                    }
+                 }
 
             }else{
                 move++;
@@ -72,7 +76,11 @@ int main(int argc, char *argv[]){
         else if( ch == 44) // ,
             *p=getchar();
 
-        else if( ch == 93) { // ]
+        else if( ch == 93) {                      // ]
+            if(hmove == move){                //not found [
+                printf("%d: no [\n",ftell(file));
+                exit(1);
+            }
             if(*p != 0) {
                 fseek(file, *move, 0);
             } else
